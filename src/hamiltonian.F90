@@ -175,7 +175,8 @@ contains
     real(kind=dp)        :: eigval2(num_wann,num_kpts)
     real(kind=dp)        :: irvec_tmp(3)
     integer              :: loop_kpt,i,j,m,irpt,ierr,counter
-    real(kind=dp)
+    integer:: n1, n2, n3
+    real(kind=dp):: n1r, n2r, n3r
 
     if (timing_level>1) call io_stopwatch('hamiltonian: get_hr',1)
 
@@ -273,13 +274,15 @@ contains
           enddo
        enddo
        
-       do irpt=1,nrpts
+       ham_r=cmplx_0
+       do n1=-4,4;do n2=-4,4;do n3=-4,4;
+          n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
           do loop_kpt=1,num_kpts
-             rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real(irvec(:,irpt),dp))
+             rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real((n1r,n2r,n3r),dp))
              fac=exp(-cmplx_i*rdotk)/real(num_kpts,dp)
-             ham_r(:,:,irpt)=ham_r(:,:,irpt)+fac*ham_k(:,:,loop_kpt)
+             ham_r=ham_r+fac*ham_k(:,:,loop_kpt)
           enddo
-       enddo
+       enddo;enddo;enddo;
     
        have_translated = .false.
 
