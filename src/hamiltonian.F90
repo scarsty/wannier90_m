@@ -266,6 +266,7 @@ contains
 
     if (.not. use_translation) then
 
+	write(stdout,'a') 'hidddddddddddddddddd'
        do irpt=1,nrpts
           do loop_kpt=1,num_kpts
              rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real(irvec(:,irpt),dp))
