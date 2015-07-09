@@ -306,7 +306,9 @@ contains
     have_ham_r = .true.
 
 200 continue
-
+       allocate(shift_vec(3,num_wann),stat=ierr)
+       if (ierr/=0) call io_error('Error in allocating shift_vec in hamiltonian_get_hr')
+       call internal_translate_centres()
         file_unit=io_file_unit()
         open(file_unit,file=trim(seedname)//'_hr2.dat',form='formatted', status='unknown')
        !转到一个较密的点阵中
