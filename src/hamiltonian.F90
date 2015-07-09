@@ -266,7 +266,6 @@ contains
 
     if (.not. use_translation) then
 
-	write(stdout,*) 'hidddddddddddddddddd'
        do irpt=1,nrpts
           do loop_kpt=1,num_kpts
              rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real(irvec(:,irpt),dp))
@@ -274,7 +273,7 @@ contains
              ham_r(:,:,irpt)=ham_r(:,:,irpt)+fac*ham_k(:,:,loop_kpt)
           enddo
        enddo
-       
+              write(stdout,'(1x,a)') '*---------another--rter-------------------------*'
     
        have_translated = .false.
 
@@ -298,7 +297,7 @@ contains
              end do
           enddo
        enddo
-       
+       write(stdout,'(1x,a)') '*---------another---------------------------*'
         file_unit=io_file_unit()
         open(file_unit,file=trim(seedname)//'_hr2.dat',form='formatted', status='unknown')
        !转到一个较密的点阵中
