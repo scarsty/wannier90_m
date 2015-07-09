@@ -317,17 +317,20 @@ contains
           irvec_tmp(1)=n1r;
           irvec_tmp(2)=n2r;
           irvec_tmp(3)=n3r;
-          ham_rr=cmplx_0
+
           do i=1,num_wann; do j=1,num_wann;
+		            ham_rr=cmplx_0
+					write(stdout,'(3F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_rr
               do loop_kpt=1,num_kpts
                    irvec_tmp(:)=irvec_tmp(:)+shift_vec(:,i)-shift_vec(:,j)   
                    rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real(irvec_tmp(:),dp))
                    fac=exp(-cmplx_i*rdotk)/real(num_kpts,dp)
                    ham_rr=ham_rr+fac*ham_k(j,i,loop_kpt)
               enddo
+			  write(file_unit,'(3F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_rr
           enddo;enddo;
           !输出hr
-		  write(file_unit,'(2F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_r(j,i,irpt)
+		  
         enddo;enddo;enddo;
         close(file_unit)
 
