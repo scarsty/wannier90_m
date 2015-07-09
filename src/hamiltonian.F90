@@ -298,9 +298,18 @@ contains
           enddo
        enddo
        write(stdout,'(1x,a)') '*---------another---------------------------*'
+
+       have_translated = .true.
+
+    end if
+
+    have_ham_r = .true.
+
+200 continue
+
         file_unit=io_file_unit()
         open(file_unit,file=trim(seedname)//'_hr2.dat',form='formatted', status='unknown')
-       !×ªµ½Ò»¸ö½ÏÃÜµÄµãÕóÖÐ
+       !è½¬åˆ°ä¸€ä¸ªè¾ƒå¯†çš„ç‚¹é˜µä¸­
         do n1=-4,4;do n2=-4,4;do n3=-4,4;
           n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
           irvec_tmp(1)=n1r;
@@ -315,17 +324,10 @@ contains
                    ham_rr=ham_rr+fac*ham_k(j,i,loop_kpt)
               enddo
           enddo;enddo;
-          !Êä³öhr
+          !è¾“å‡ºhr
 		  write(file_unit,'(2F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_r(j,i,irpt)
         enddo;enddo;enddo;
         close(file_unit)
-       have_translated = .true.
-
-    end if
-
-    have_ham_r = .true.
-
-200 continue
 
     if (allocated(shift_vec)) then
        deallocate(shift_vec,stat=ierr)
