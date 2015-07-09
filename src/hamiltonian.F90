@@ -299,7 +299,7 @@ contains
        enddo
        
         file_unit=io_file_unit()
-        open(file_unit,file=trim(seedname)//'_hr2.dat',form='formatted', status='unknown',err=101)
+        open(file_unit,file=trim(seedname)//'_hr2.dat',form='formatted', status='unknown')
        !转到一个较密的点阵中
         do n1=-4,4;do n2=-4,4;do n3=-4,4;
           n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
