@@ -168,7 +168,7 @@ contains
 
     implicit none
   
-    integer, allocatable :: shift_vec(:,:)
+    integer, allocatable :: shift_vec(:,:), file_unit
     complex(kind=dp)     :: fac, ham_rr
     real(kind=dp)        :: rdotk
     real(kind=dp)        :: eigval_opt(num_bands,num_kpts)
@@ -298,8 +298,11 @@ contains
           enddo
        enddo
        
+        file_unit=io_file_unit()
+        open(file_unit,file=trim(seedname)//'_hr2.dat',form='formatted',&
+         status='unknown',err=101)
        !转到一个较密的点阵中
-       do n1=-4,4;do n2=-4,4;do n3=-4,4;
+        do n1=-4,4;do n2=-4,4;do n3=-4,4;
           n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
           irvec_tmp(1)=n1r;
           irvec_tmp(2)=n2r;
@@ -314,8 +317,9 @@ contains
               enddo
           enddo;enddo;
           !输出hr
-       enddo;enddo;enddo;
-
+		  write(file_unit,'(2F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_r(j,i,irpt)
+        enddo;enddo;enddo;
+        close(file_unit)
        have_translated = .true.
 
     end if
