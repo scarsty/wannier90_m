@@ -169,7 +169,7 @@ contains
     implicit none
   
     integer, allocatable :: shift_vec(:,:)
-    complex(kind=dp)     :: fac
+    complex(kind=dp)     :: fac, ham_rr
     real(kind=dp)        :: rdotk
     real(kind=dp)        :: eigval_opt(num_bands,num_kpts)
     real(kind=dp)        :: eigval2(num_wann,num_kpts)
@@ -274,15 +274,6 @@ contains
           enddo
        enddo
        
-       ham_r=cmplx_0
-       do n1=-4,4;do n2=-4,4;do n3=-4,4;
-          n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
-          do loop_kpt=1,num_kpts
-             rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real((n1r,n2r,n3r),dp))
-             fac=exp(-cmplx_i*rdotk)/real(num_kpts,dp)
-             ham_r=ham_r+fac*ham_k(:,:,loop_kpt)
-          enddo
-       enddo;enddo;enddo;
     
        have_translated = .false.
 
@@ -306,6 +297,24 @@ contains
              end do
           enddo
        enddo
+       
+       !转到一个较密的点阵中
+       do n1=-4,4;do n2=-4,4;do n3=-4,4;
+          n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
+          irvec_tmp(1)=n1r;
+          irvec_tmp(2)=n2r;
+          irvec_tmp(3)=n3r;
+          ham_rr=cmplx_0
+          do i=1,num_wann; do j=1,num_wann;
+              do loop_kpt=1,num_kpts
+                   irvec_tmp(:)=irvec_tmp(:)+shift_vec(:,i)-shift_vec(:,j)   
+                   rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real(irvec_tmp(:),dp))
+                   fac=exp(-cmplx_i*rdotk)/real(num_kpts,dp)
+                   ham_rr=ham_rr+fac*ham_k(j,i,loop_kpt)
+              enddo
+          enddo;enddo;
+          !输出hr
+       enddo;enddo;enddo;
 
        have_translated = .true.
 
