@@ -161,7 +161,7 @@ contains
     !============================================!
 
     use w90_constants,  only : cmplx_0,cmplx_i,twopi
-    use w90_io,         only : io_error,io_stopwatch,io_file_unit,seedname
+    use w90_io,         only : io_error,io_stopwatch,io_file_unit,seedname, stdout
     use w90_parameters, only : num_bands,num_kpts,num_wann,u_matrix, &
                                eigval,kpt_latt,u_matrix_opt,lwindow,ndimwin, &
                                have_disentangled,timing_level
@@ -266,7 +266,7 @@ contains
 
     if (.not. use_translation) then
 
-	write(stdout,'a') 'hidddddddddddddddddd'
+	write(stdout,*) 'hidddddddddddddddddd'
        do irpt=1,nrpts
           do loop_kpt=1,num_kpts
              rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real(irvec(:,irpt),dp))
