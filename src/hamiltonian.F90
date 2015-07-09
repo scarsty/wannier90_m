@@ -309,8 +309,10 @@ contains
        allocate(shift_vec(3,num_wann),stat=ierr)
        if (ierr/=0) call io_error('Error in allocating shift_vec in hamiltonian_get_hr')
        call internal_translate_centres()
+	   write(stdout,*) 'dsfasdfadfafasd'
         file_unit=io_file_unit()
         open(file_unit,file=trim(seedname)//'_hr2.dat',form='formatted', status='unknown')
+		write(stdout,*) 'dsfasdddddfadfafasd'
        !转到一个较密的点阵中
         do n1=-4,4;do n2=-4,4;do n3=-4,4;
           n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
