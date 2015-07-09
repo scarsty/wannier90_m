@@ -309,10 +309,10 @@ contains
        allocate(shift_vec(3,num_wann),stat=ierr)
        if (ierr/=0) call io_error('Error in allocating shift_vec in hamiltonian_get_hr')
        call internal_translate_centres()
-	   write(stdout,*) 'dsfasdfadfafasd'
-        file_unit=io_file_unit()
-        open(file_unit,'1_hr2.dat',form='formatted')
-		write(stdout,*) 'dsfasdddddfadfafasd'
+	   !write(stdout,*) 'dsfasdfadfafasd'
+        !file_unit=io_file_unit()
+        open(9999,file='1_hr2.dat',form='formatted')
+		!write(stdout,*) 'dsfasdddddfadfafasd'
        !转到一个较密的点阵中
         do n1=-4,4;do n2=-4,4;do n3=-4,4;
           n1r=n1*0.5;n2r=n2*0.5;n3r=n3*0.5;
@@ -322,19 +322,19 @@ contains
 
           do i=1,num_wann; do j=1,num_wann;
 		            ham_rr=cmplx_0
-					write(stdout,'(3F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_rr
+					!write(stdout,'(3F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_rr
               do loop_kpt=1,num_kpts
                    irvec_tmp(:)=irvec_tmp(:)+shift_vec(:,i)-shift_vec(:,j)   
                    rdotk=twopi*dot_product(kpt_latt(:,loop_kpt),real(irvec_tmp(:),dp))
                    fac=exp(-cmplx_i*rdotk)/real(num_kpts,dp)
                    ham_rr=ham_rr+fac*ham_k(j,i,loop_kpt)
               enddo
-			  write(file_unit,'(3F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_rr
+			  write(9999,'(3F12.2, 2I5, 2F12.6)') n1r, n2r, n3r, j, i, ham_rr
           enddo;enddo;
           !输出hr
 		  
         enddo;enddo;enddo;
-        close(file_unit)
+        close(9999)
 
     if (allocated(shift_vec)) then
        deallocate(shift_vec,stat=ierr)
